@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://w1.eren.wtf:5432/gamebuddyDB
+    username: gamebuddy
+    password: 3uT4}dpjK2PUk2#n
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: schauth
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  secret: 4B6250655368566D5970337336763979244226452948404D635166546A576E5A
+
+server:
+  port: 4567
+

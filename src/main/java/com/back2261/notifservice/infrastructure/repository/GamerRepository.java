@@ -1,0 +1,9 @@
+package com.back2261.notifservice.infrastructure.repository;
+
+import com.back2261.notifservice.infrastructure.entity.Gamer;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GamerRepository extends JpaRepository<Gamer, String> {
+    Optional<Gamer> findByEmail(String email);
+}
