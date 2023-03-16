@@ -11,6 +11,11 @@ public class BusinessException extends RuntimeException {
         this.transactionCode = transactionCode;
     }
 
+    public BusinessException(TransactionCode transactionCode, String message) {
+        super(message);
+        this.transactionCode = transactionCode;
+    }
+
     @Override
     public String getMessage() {
 

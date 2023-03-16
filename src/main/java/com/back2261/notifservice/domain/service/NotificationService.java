@@ -1,3 +1,15 @@
 package com.back2261.notifservice.domain.service;
 
-public interface NotificationService {}
+import com.back2261.notifservice.interfaces.request.SendNotificationTokenRequest;
+import com.back2261.notifservice.interfaces.request.SendNotificationTopicRequest;
+import com.back2261.notifservice.interfaces.response.DefaultMessageResponse;
+import com.back2261.notifservice.interfaces.response.GetNotificationsResponse;
+
+public interface NotificationService {
+
+    DefaultMessageResponse sendToToken(SendNotificationTokenRequest tokenRequest);
+
+    DefaultMessageResponse sendToTopic(SendNotificationTopicRequest topicRequest);
+
+    GetNotificationsResponse showAll(String userId);
+}
