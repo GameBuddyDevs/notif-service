@@ -1,6 +1,6 @@
 package com.back2261.notifservice.infrastructure.entity;
 
-import com.back2261.notifservice.interfaces.enums.Role;
+import io.github.GameBuddyDevs.backendlibrary.enums.Role;
 import jakarta.persistence.*;
 import java.util.Date;
 import lombok.AllArgsConstructor;

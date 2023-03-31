@@ -1,7 +1,8 @@
 package com.back2261.notifservice.exception;
 
-import com.back2261.notifservice.base.Status;
-import com.back2261.notifservice.interfaces.response.DefaultMessageResponse;
+import io.github.GameBuddyDevs.backendlibrary.base.Status;
+import io.github.GameBuddyDevs.backendlibrary.exception.BusinessException;
+import io.github.GameBuddyDevs.backendlibrary.interfaces.DefaultMessageResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;

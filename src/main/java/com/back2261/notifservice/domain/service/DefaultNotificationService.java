@@ -1,20 +1,20 @@
 package com.back2261.notifservice.domain.service;
 
-import com.back2261.notifservice.base.BaseBody;
-import com.back2261.notifservice.base.Status;
 import com.back2261.notifservice.domain.service.firebase.FCMService;
-import com.back2261.notifservice.exception.BusinessException;
 import com.back2261.notifservice.infrastructure.entity.Notification;
 import com.back2261.notifservice.infrastructure.repository.GamerRepository;
 import com.back2261.notifservice.infrastructure.repository.NotificationRepository;
-import com.back2261.notifservice.interfaces.dto.DefaultMessageBody;
 import com.back2261.notifservice.interfaces.dto.GetNotificationsResponseBody;
 import com.back2261.notifservice.interfaces.dto.NotificationDto;
-import com.back2261.notifservice.interfaces.enums.TransactionCode;
 import com.back2261.notifservice.interfaces.request.SendNotificationTokenRequest;
 import com.back2261.notifservice.interfaces.request.SendNotificationTopicRequest;
-import com.back2261.notifservice.interfaces.response.DefaultMessageResponse;
 import com.back2261.notifservice.interfaces.response.GetNotificationsResponse;
+import io.github.GameBuddyDevs.backendlibrary.base.BaseBody;
+import io.github.GameBuddyDevs.backendlibrary.base.Status;
+import io.github.GameBuddyDevs.backendlibrary.enums.TransactionCode;
+import io.github.GameBuddyDevs.backendlibrary.exception.BusinessException;
+import io.github.GameBuddyDevs.backendlibrary.interfaces.DefaultMessageBody;
+import io.github.GameBuddyDevs.backendlibrary.interfaces.DefaultMessageResponse;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

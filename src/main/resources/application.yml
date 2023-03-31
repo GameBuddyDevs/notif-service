@@ -19,6 +19,10 @@ firebase:
   config:
     path: firebase-credentials.json
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+
 server:
   port: 4567
 
