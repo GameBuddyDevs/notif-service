@@ -17,6 +17,9 @@ import io.github.GameBuddyDevs.backendlibrary.enums.TransactionCode;
 import io.github.GameBuddyDevs.backendlibrary.interfaces.DefaultMessageBody;
 import io.github.GameBuddyDevs.backendlibrary.interfaces.DefaultMessageResponse;
 import io.github.GameBuddyDevs.backendlibrary.service.JwtService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,10 +30,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @WebMvcTest(
         value = NotificationController.class,
@@ -125,8 +124,8 @@ class NotificationControllerTest {
 
         Mockito.when(defaultNotificationService.showAll(Mockito.anyString())).thenReturn(notificationsResponse);
 
-        var request = MockMvcRequestBuilders.get("/notif/showall/{userId}", userId)
-                .contentType("application/json");
+        var request =
+                MockMvcRequestBuilders.get("/notif/showall/{userId}", userId).contentType("application/json");
         var response = mockMvc.perform(request)
                 .andDo(print())
                 .andExpect(status().isOk())
