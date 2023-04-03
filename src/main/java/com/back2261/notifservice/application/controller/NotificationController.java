@@ -17,7 +17,7 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @GetMapping("/token")
+    @PostMapping("/token")
     public ResponseEntity<DefaultMessageResponse> sendToToken(@RequestBody SendNotificationTokenRequest tokenRequest) {
         return new ResponseEntity<>(notificationService.sendToToken(tokenRequest), HttpStatus.OK);
     }

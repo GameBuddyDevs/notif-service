@@ -54,7 +54,7 @@ public class DefaultNotificationService implements NotificationService {
             fcmService.sendMessageToTopic(topicRequest);
             saveNotification(topicRequest.getTitle(), topicRequest.getBody(), topicRequest.getTopic());
             DefaultMessageResponse response = new DefaultMessageResponse();
-            DefaultMessageBody body = new DefaultMessageBody("Notification sent successfully");
+            DefaultMessageBody body = new DefaultMessageBody("Notification to topic sent successfully");
             response.setBody(new BaseBody<>(body));
             response.setStatus(new Status(TransactionCode.DEFAULT_100));
             return response;
@@ -69,7 +69,11 @@ public class DefaultNotificationService implements NotificationService {
     public GetNotificationsResponse showAll(String userId) {
         List<Notification> notificationList = notificationRepository.findAllByUserId(userId);
         List<NotificationDto> notificationDtoList = new ArrayList<>();
-        BeanUtils.copyProperties(notificationList, notificationDtoList);
+        for (Notification notification : notificationList) {
+            NotificationDto notificationDto = new NotificationDto();
+            BeanUtils.copyProperties(notification, notificationDto);
+            notificationDtoList.add(notificationDto);
+        }
         GetNotificationsResponse response = new GetNotificationsResponse();
         GetNotificationsResponseBody body = new GetNotificationsResponseBody();
         body.setUserNotifications(notificationDtoList);
