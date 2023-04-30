@@ -3,11 +3,14 @@ package com.back2261.notifservice.infrastructure.entity;
 import io.github.GameBuddyDevs.backendlibrary.enums.Role;
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -32,7 +35,7 @@ public class Gamer implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(Role.USER.name()));
     }
 
     @Override

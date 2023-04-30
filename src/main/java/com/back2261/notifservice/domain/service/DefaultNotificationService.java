@@ -31,47 +31,50 @@ public class DefaultNotificationService implements NotificationService {
 
     @Override
     public DefaultMessageResponse sendToToken(SendNotificationTokenRequest tokenRequest) {
+        String userId = gamerRepository
+                .findByFcmToken(tokenRequest.getToken())
+                .orElseThrow(() -> new BusinessException(TransactionCode.USER_NOT_FOUND))
+                .getUserId();
         try {
             fcmService.sendMessageToToken(tokenRequest);
-            String userId =
-                    gamerRepository.findByFcmToken(tokenRequest.getToken()).getUserId();
-            saveNotification(tokenRequest.getTitle(), tokenRequest.getBody(), userId);
-            DefaultMessageResponse response = new DefaultMessageResponse();
-            DefaultMessageBody body = new DefaultMessageBody("Notification sent successfully");
-            response.setBody(new BaseBody<>(body));
-            response.setStatus(new Status(TransactionCode.DEFAULT_100));
-            return response;
-
         } catch (Exception e) {
             Thread.currentThread().interrupt();
             throw new BusinessException(TransactionCode.NOTIF_SEND_FAILED, e.getMessage());
         }
+        saveNotification(tokenRequest.getTitle(), tokenRequest.getBody(), userId);
+        DefaultMessageResponse response = new DefaultMessageResponse();
+        DefaultMessageBody body = new DefaultMessageBody("Notification sent successfully");
+        response.setBody(new BaseBody<>(body));
+        response.setStatus(new Status(TransactionCode.DEFAULT_100));
+        return response;
     }
 
     @Override
     public DefaultMessageResponse sendToTopic(SendNotificationTopicRequest topicRequest) {
         try {
             fcmService.sendMessageToTopic(topicRequest);
-            saveNotification(topicRequest.getTitle(), topicRequest.getBody(), topicRequest.getTopic());
-            DefaultMessageResponse response = new DefaultMessageResponse();
-            DefaultMessageBody body = new DefaultMessageBody("Notification to topic sent successfully");
-            response.setBody(new BaseBody<>(body));
-            response.setStatus(new Status(TransactionCode.DEFAULT_100));
-            return response;
-
         } catch (Exception e) {
             Thread.currentThread().interrupt();
             throw new BusinessException(TransactionCode.NOTIF_SEND_FAILED, e.getMessage());
         }
+        saveNotification(topicRequest.getTitle(), topicRequest.getBody(), topicRequest.getTopic());
+        DefaultMessageResponse response = new DefaultMessageResponse();
+        DefaultMessageBody body = new DefaultMessageBody("Notification to topic sent successfully");
+        response.setBody(new BaseBody<>(body));
+        response.setStatus(new Status(TransactionCode.DEFAULT_100));
+        return response;
     }
 
     @Override
     public GetNotificationsResponse showAll(String userId) {
         List<Notification> notificationList = notificationRepository.findAllByUserId(userId);
+        List<Notification> allNotificationList = notificationRepository.findAllByUserId("all");
+        notificationList.addAll(allNotificationList);
         List<NotificationDto> notificationDtoList = new ArrayList<>();
         for (Notification notification : notificationList) {
             NotificationDto notificationDto = new NotificationDto();
             BeanUtils.copyProperties(notification, notificationDto);
+            notificationDto.setUserIdOrTopic(notification.getUserId());
             notificationDtoList.add(notificationDto);
         }
         GetNotificationsResponse response = new GetNotificationsResponse();

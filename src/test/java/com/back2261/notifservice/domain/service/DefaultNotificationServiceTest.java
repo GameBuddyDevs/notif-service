@@ -12,10 +12,7 @@ import com.back2261.notifservice.interfaces.request.SendNotificationTopicRequest
 import com.back2261.notifservice.interfaces.response.GetNotificationsResponse;
 import io.github.GameBuddyDevs.backendlibrary.exception.BusinessException;
 import io.github.GameBuddyDevs.backendlibrary.interfaces.DefaultMessageResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,6 +48,7 @@ class DefaultNotificationServiceTest {
         tokenRequest.setBody("test");
         tokenRequest.setImageUrl("test");
 
+        Mockito.when(gamerRepository.findByFcmToken(Mockito.anyString())).thenReturn(Optional.of(new Gamer()));
         Mockito.doThrow(new ExecutionException(new Exception()))
                 .when(fcmService)
                 .sendMessageToToken(tokenRequest);
@@ -69,7 +67,7 @@ class DefaultNotificationServiceTest {
         tokenRequest.setImageUrl("test");
 
         Mockito.doNothing().when(fcmService).sendMessageToToken(tokenRequest);
-        Mockito.when(gamerRepository.findByFcmToken(Mockito.anyString())).thenReturn(new Gamer());
+        Mockito.when(gamerRepository.findByFcmToken(Mockito.anyString())).thenReturn(Optional.of(new Gamer()));
 
         DefaultMessageResponse result = defaultNotificationService.sendToToken(tokenRequest);
         assertEquals("100", result.getStatus().getCode());
@@ -118,12 +116,21 @@ class DefaultNotificationServiceTest {
         notification.setId(UUID.randomUUID());
         notification.setCreatedDate(new Date());
         notificationList.add(notification);
+        List<Notification> allNotificationList = new ArrayList<>();
+        Notification notification2 = new Notification();
+        notification2.setBody("test");
+        notification2.setTitle("test");
+        notification2.setUserId("all");
+        notification2.setId(UUID.randomUUID());
+        notification2.setCreatedDate(new Date());
+        allNotificationList.add(notification2);
 
         Mockito.when(notificationRepository.findAllByUserId(Mockito.anyString()))
-                .thenReturn(notificationList);
+                .thenReturn(notificationList)
+                .thenReturn(allNotificationList);
 
         GetNotificationsResponse result = defaultNotificationService.showAll(userId);
         assertEquals("100", result.getStatus().getCode());
-        assertEquals(1, result.getBody().getData().getUserNotifications().size());
+        assertEquals(2, result.getBody().getData().getUserNotifications().size());
     }
 }
